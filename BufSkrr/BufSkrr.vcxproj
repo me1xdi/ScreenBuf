@@ -182,6 +182,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\BuffInform\BuffInform\BuffInform.cpp" />
+    <ClCompile Include="..\..\BufSet\BufSet\BufSet.cpp" />
+    <ClCompile Include="..\..\ReadWriteConsole\ReadWriteConsole\ReadWriteConsole.cpp" />
     <ClCompile Include="BufSkrr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

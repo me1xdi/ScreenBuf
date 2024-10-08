@@ -18,5 +18,14 @@
     <ClCompile Include="BufSkrr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\BuffInform\BuffInform\BuffInform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BufSet\BufSet\BufSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ReadWriteConsole\ReadWriteConsole\ReadWriteConsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
