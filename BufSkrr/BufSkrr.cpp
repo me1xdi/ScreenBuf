@@ -1,59 +1,31 @@
 #include <windows.h>
-#include <conio.h> 
+#include <iostream>
 int main()
 {
-	HANDLE hStd0utOld, hStd0utNew;
-	DWORD dwwritten;
-	hStd0utNew = CreateConsoleScreenBuffer(
-		GENERIC_READ | GENERIC_WRITE,
-		0,
-		NULL,
-		CONSOLE_TEXTMODE_BUFFER,
-		NULL);
-	if (hStd0utNew == INVALID_HANDLE_VALUE)
-	{
-		_cputs("Create console screen buffer failed.\n");
-		return GetLastError();
-	}
+	HANDLE hStdOut;
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
 
-	hStd0utOld = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	_cputs("Press any key to set new screen buffer active.\n");
-	_getch();
+	hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	if (!SetConsoleActiveScreenBuffer(hStd0utNew))
-	{
-		_cputs("Set new console active screen buffer failed.\n");
-		return GetLastError();
-	}
+	if (!GetConsoleScreenBufferInfo(hStdOut, &csbi))
+		std::cout << "Console screen buffer info failed." << std::endl;
+	std::cout << "Console screen buffer info: " << std::endl << std::endl;
 
-	char text[] = "This is a new screen buffer.";
-	if (!WriteConsole(
-		hStd0utNew,
-		text,
-		sizeof(text),
-		&dwwritten,
-		NULL))
-		_cputs("Write console output character failed.\n");
-	char str[] = "\nPress any key to set old screen buffer.";
-	if (!WriteConsole(
-		hStd0utNew,
-		str,
-		sizeof(str),
-		&dwwritten,
-		NULL))
-		_cputs("Write console output character failed.\n");
-	_getch();
-	if (!SetConsoleActiveScreenBuffer(hStd0utOld))
-	{
-		_cputs("Set old console active screen buffer failed.\n");
-		return GetLastError();
-	}
-
-	_cputs("This is an old console screen buf");
-		CloseHandle(hStd0utNew);
-
-	_cputs("Press any key to finish.\n");
-	_getch();
+	std::cout << "A number of columns = " << csbi.dwSize.X << std::endl;
+	std::cout << "A number of rows = " << csbi.dwSize.Y << std::endl;
+	std::cout << "X cursor coordinate = " << csbi.dwCursorPosition.X << std::endl;
+	std::cout << "Y cursor coordinate = " << csbi.dwCursorPosition.Y << std::endl;
+	std::cout << "Attributes = " << std::hex << csbi.wAttributes << std::dec << std::endl;
+	std::cout << "Window upper corner = "
+		<< csbi.srWindow.Left << ","
+		<< csbi.srWindow.Top << std::endl;
+	std::cout << "Window lower corner = "
+		<< csbi.srWindow.Right << ","
+		<< csbi.srWindow.Bottom << std::endl;
+	std::cout << "Maximum number of columns = "
+		<< csbi.dwMaximumWindowSize.X << std::endl;
+	std::cout << "Maximum number of rows = "
+		<< csbi.dwMaximumWindowSize.Y << std::endl << std::endl;
 	return 0;
 }
