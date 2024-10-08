@@ -1,22 +1,33 @@
 #include <windows.h>
 #include <iostream>
+using namespace std;
 int main()
 {
-	COORD coord;
-	HANDLE hStdOut;
-
+	HANDLE hStdOut, hStdIn;
+	DWORD dwwritten, dwRead;
+	char buffer[80];
+	char str[] = "Input any string:";
+	char c;
 	hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	std::cout << "Enter new screen buffer size." << std::endl;
-	std::cout << "A number of columns: ";
-	std::cin >> coord.X;
-	std::cout << "A number of rows: ";
-	std::cin >> coord.Y;
-
-	if (!SetConsoleScreenBufferSize(hStdOut, coord))
+	hStdIn = GetStdHandle(STD_INPUT_HANDLE);
+	if (hStdOut == INVALID_HANDLE_VALUE || hStdIn == INVALID_HANDLE_VALUE)
 	{
-		std::cout << "Set console screen buffer size failed." << std::endl;
+		cout << "Get standard handle failed." << endl;
 		return GetLastError();
 	}
+
+	if (!WriteConsole(hStdOut, &str, sizeof(str), &dwwritten, NULL))
+	{
+		cout << "Write console failed." << endl;
+		return GetLastError();
+	}
+
+	if (!ReadConsole(hStdIn, &buffer, sizeof(buffer), &dwRead, NULL))
+	{
+		cout << "Read console failed." << endl;
+		return GetLastError();
+	}
+	cout << "Input any char to exit: ";
+	cin >> c;
 	return 0;
 }
